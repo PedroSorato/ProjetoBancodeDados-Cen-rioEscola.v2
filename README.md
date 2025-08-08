@@ -63,9 +63,10 @@ Um aluno pode estar matriculado em um ou mais cursos.
 - 🧠 Subconsultas e derivadas
 - 🔗 Combinações com UNION e UNION ALL
 - 🔥 Cálculo de diferença percentual das notas
-- 🏆 Roadmap de Evolução (v2, v3...)
-- ✅ Criação de usuários específicos no banco (CREATE USER)
+- ➕ Criação de usuários específicos no banco (CREATE USER)
 - ✅ Controle de permissões e roles (GRANT, REVOKE)
+
+ ## 🏆 Roadmap de Evolução (v3...)
 - ✅ Procedures e Functions para rotinas
 - ✅ Criação de Views e Materialized Views
 - ✅ Implementação de Triggers
