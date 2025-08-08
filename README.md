@@ -87,6 +87,7 @@ Este projeto faz parte da minha transição de carreira, saindo da área de Serv
 
 🔗 Contato
 Feito com dedicação por Pedro Sorato
+
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin)](https://www.linkedin.com/in/pedro-sorato-789979193)  
 [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/PedroSorato)
 
