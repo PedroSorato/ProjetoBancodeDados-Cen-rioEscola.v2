@@ -16,6 +16,12 @@ Git e GitHub para versionamento
 
 ---
 
+## 📚 Modelagem do Banco de Dados
+
+O modelo final de dados foi criado no MySQL Workbench e pode ser visualizado na imagem abaixo:
+
+![Modelagem do Banco de Dados](modelagem-dos-dados.png)
+
 ## 🏗️ Estrutura do Banco de Dados
 
 ### 🔗 Entidades:
