@@ -1,0 +1,148 @@
+/// Listar todos os alunos e seus respectivos responsáveis ///
+SELECT AL.NOME AS "NOME ALUNO", RESP.NOME AS "NOME RESPONSAVEL"
+FROM
+ALUNO AL
+JOIN RESPONSAVEL RESP ON AL.RESPONSAVEL_ID = RESP.ID_RESPONSAVEL;
+
+/// Mostrar o nome de todas as disciplinas cadastradas ///
+SELECT NOME AS "NOME DISCIPLINA"
+FROM
+DISCIPLINA;
+
+/// Listar o nome dos professores e o nome da disciplina que cada um ministra ///
+SELECT PF.NOME AS "NOME PROFESSOR", DISC.NOME AS "NOME DISCIPLINA"
+FROM 
+PROFESSOR PF
+JOIN DISCIPLINA DISC ON PF.ID_PROFESSOR = DISC.PROFESSOR_ID;
+
+/// Mostrar todos os cursos disponíveis ordenados por nome ///
+SELECT NOME
+FROM
+DISCIPLINA
+ORDER BY NOME;
+
+/// Listar os alunos com o nome do curso em que estão matriculados ///
+SELECT AL.NOME AS "NOME ALUNO", AL.ID_ALUNO, CS.NOME AS "NOME CURSO"
+FROM
+ALUNO AL
+JOIN
+MATRICULA ML ON AL.ID_ALUNO = ML.ALUNO_ID
+JOIN
+CURSO CS ON ML.CURSO_ID = CS.ID_CURSO;
+
+///Exibir os dados da matrícula: nome do aluno, data da matrícula e curso.///
+SELECT AL.NOME AS "NOME ALUNO", ML.DATA_MATRICULA, CS.NOME AS "NOME CURSO"
+FROM
+ALUNO AL
+JOIN
+MATRICULA ML ON AL.ID_ALUNO = ML.ALUNO_ID
+JOIN
+CURSO CS ON ML.CURSO_ID = CS.ID_CURSO;
+
+///Listar os professores e o curso no qual estão vinculados via disciplina///
+SELECT PF.NOME "NOME PROFESSOR", DP.NOME
+FROM
+PROFESSOR PF
+JOIN DISCIPLINA DP ON PF.ID_PROFESSOR = DP.PROFESSOR_ID;
+
+///Mostrar o nome dos alunos e o valor dos pagamentos realizados///
+SELECT AL.NOME, PG.VALOR
+FROM
+ALUNO AL
+JOIN PAGAMENTO PG ON AL.ID_ALUNO = PG.ALUNO_ID;
+
+///Listar os alunos que têm pagamentos com o status “Pendente”///
+SELECT AL.NOME, PG.STATUS
+FROM
+ALUNO AL
+JOIN PAGAMENTO PG ON AL.ID_ALUNO = PG.ALUNO_ID WHERE STATUS = 'PENDENTE' ORDER BY AL.NOME;
+
+///Exibir os pagamentos com valor acima de R$ 1600 ordenados do maior para o menor///
+SELECT AL.NOME, PG.VALOR
+FROM
+ALUNO AL
+JOIN PAGAMENTO PG ON AL.ID_ALUNO = PG.ALUNO_ID WHERE VALOR > '1600' ORDER BY PG.VALOR;
+
+///Listar os cursos que contenham a palavra “Engenharia” no nome///
+SELECT CS.NOME
+FROM CURSO CS
+WHERE NOME LIKE '%Engenharia%';
+
+///Mostrar os alunos que estão matriculados no curso de Psicologia///
+SELECT AL.NOME, AL.ID_ALUNO, CS.NOME
+FROM
+ALUNO AL
+JOIN MATRICULA ML ON AL.ID_ALUNO = ML.ALUNO_ID
+JOIN CURSO CS ON ML.CURSO_ID = CS.ID_CURSO WHERE CS.NOME = 'Psicologia'
+ORDER BY AL.NOME;
+
+
+///Quantos alunos estão matriculados em cada curso?///
+SELECT CURSO_ID, CS.NOME, COUNT(*) AS NUM_ALUNOS
+FROM MATRICULA ML
+JOIN CURSO CS ON ML.CURSO_ID = CS.ID_CURSO
+GROUP BY ML.CURSO_ID, CS.NOME;
+
+///Média de valor dos pagamentos por curso///
+SELECT ML.CURSO_ID, CS.NOME, ROUND(AVG(PG.VALOR),2) AS "VALOR MEDIO"
+FROM
+PAGAMENTO PG
+JOIN MATRICULA ML ON PG.ALUNO_ID = ML.ALUNO_ID
+JOIN CURSO CS ON ML.CURSO_ID = CS.ID_CURSO
+GROUP BY ML.CURSO_ID, CS.NOME;
+
+///Quantos alunos ainda estão com pagamentos pendentes?///
+SELECT AL.NOME, AL.ID_ALUNO, COUNT(DISTINCT AL.ID_ALUNO) AS "PAGAMENTOS PENDENTES"
+FROM
+ALUNO AL
+JOIN PAGAMENTO PG ON AL.ID_ALUNO = PG.ALUNO_ID
+WHERE PG.STATUS = 'PENDENTE'
+GROUP BY AL.NOME, AL.ID_ALUNO;
+
+
+
+///Mostrar quantas disciplinas existem por curso///
+SELECT CS.NOME, COUNT(DP.ID_DISCIPLINA) AS "QUANTIDADE DISCIPLINA"
+FROM 
+CURSO CS
+JOIN DISCIPLINA DP ON CS.ID_CURSO = DP.CURSO_ID
+GROUP BY CS.NOME;
+
+///Cursos com mais de 3 alunos matriculados///
+SELECT ML.CURSO_ID, COUNT(*) AS "QUANTIDADE ALUNOS"
+FROM MATRICULA ML
+GROUP BY ML.CURSO_ID
+HAVING COUNT(*) > 3;
+
+///Qual aluno pagou o maior valor de mensalidade?///
+SELECT AL.NOME, AL.ID_ALUNO, PG.VALOR
+FROM PAGAMENTO PG
+JOIN ALUNO AL ON PG.ALUNO_ID = AL.ID_ALUNO
+WHERE PG.VALOR = (SELECT MAX(VALOR) FROM PAGAMENTO);
+
+///Quais são os professores que lecionam mais de 1 disciplina?///
+SELECT DP.NOME AS "NOME DISCIPLINA", PF.NOME AS "NOME PROFESSOR"
+FROM DISCIPLINA DP
+JOIN PROFESSOR PF ON DP.PROFESSOR_ID = PF.ID_PROFESSOR
+WHERE DP.PROFESSOR_ID IN (
+    SELECT PROFESSOR_ID
+    FROM DISCIPLINA
+    GROUP BY PROFESSOR_ID
+    HAVING COUNT(*) > 1
+);
+
+///Para cada curso, mostrar o nome, a quantidade de disciplinas e o número total de alunos///
+SELECT 
+    CS.NOME AS "NOME CURSO",
+    COUNT(DISTINCT DP.ID_DISCIPLINA) AS "QUANTIDADE DISCPLINA",
+    COUNT(DISTINCT ML.ALUNO_ID) AS "QUANTIDADE ALUNO"
+FROM 
+    CURSO CS
+LEFT JOIN DISCIPLINA DP ON CS.ID_CURSO = DP.CURSO_ID
+LEFT JOIN MATRICULA ML ON CS.ID_CURSO = ML.CURSO_ID
+GROUP BY 
+    CS.NOME
+ORDER BY 
+    CS.NOME;
+    
+commit;
