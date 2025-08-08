@@ -86,6 +86,7 @@ Um aluno pode estar matriculado em um ou mais cursos.
 Este projeto faz parte da minha transição de carreira, saindo da área de Service Desk e migrando para a área de Banco de Dados (DBA). Através dele, busco demonstrar minha evolução, disciplina e dedicação na prática com SQL e administração de bancos de dados Oracle.
 
 🔗 Contato
+
 Feito com dedicação por Pedro Sorato
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin)](https://www.linkedin.com/in/pedro-sorato-789979193)  
